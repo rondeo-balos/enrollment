@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Department extends Model
@@ -18,7 +19,7 @@ class Department extends Model
     protected $fillable = [
         'name',
         'code',
-        'head_id',
+        'instructor_id',
     ];
 
     /**
@@ -28,11 +29,16 @@ class Department extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'head_id' => 'integer',
+        'instructor_id' => 'integer',
     ];
 
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function instructor(): BelongsTo
+    {
+        return $this->belongsTo(Instructor::class);
     }
 }

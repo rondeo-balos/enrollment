@@ -67,6 +67,7 @@ models:
   Department:
     name: string
     code: string # Should be unique
-    head_id: unsignedInteger # Foreign key to Instructor
+    instructor_id: unsignedInteger # Foreign key to Instructor
     relationships:
       hasMany: Course
+      belongsTo: Instructor

@@ -6,13 +6,13 @@ created:
     - database/factories/ScheduleFactory.php
     - database/factories/PaymentFactory.php
     - database/factories/DepartmentFactory.php
-    - database/migrations/2024_12_03_090436_create_students_table.php
-    - database/migrations/2024_12_03_090437_create_courses_table.php
-    - database/migrations/2024_12_03_090438_create_instructors_table.php
-    - database/migrations/2024_12_03_090439_create_enrollments_table.php
-    - database/migrations/2024_12_03_090440_create_schedules_table.php
-    - database/migrations/2024_12_03_090441_create_payments_table.php
-    - database/migrations/2024_12_03_090442_create_departments_table.php
+    - database/migrations/2024_12_03_113118_create_students_table.php
+    - database/migrations/2024_12_03_113119_create_courses_table.php
+    - database/migrations/2024_12_03_113120_create_instructors_table.php
+    - database/migrations/2024_12_03_113121_create_enrollments_table.php
+    - database/migrations/2024_12_03_113122_create_schedules_table.php
+    - database/migrations/2024_12_03_113123_create_payments_table.php
+    - database/migrations/2024_12_03_113124_create_departments_table.php
     - app/Models/Student.php
     - app/Models/Course.php
     - app/Models/Instructor.php
@@ -28,4 +28,4 @@ models:
     Enrollment: { student_id: unsignedInteger, course_id: unsignedInteger, enrollment_date: datetime, semester: string, grade: float, relationships: { belongsTo: 'Student, Course' } }
     Schedule: { course_id: unsignedInteger, day: string, time: time, room: string, instructor_id: unsignedInteger, relationships: { belongsTo: 'Course, Instructor' } }
     Payment: { student_id: unsignedInteger, amount: float, payment_date: datetime, payment_method: string, outstanding_bal: float, relationships: { belongsTo: Student } }
-    Department: { name: string, code: string, head_id: unsignedInteger, relationships: { hasMany: Course } }
+    Department: { name: string, code: string, instructor_id: unsignedInteger, relationships: { hasMany: Course, belongsTo: Instructor } }

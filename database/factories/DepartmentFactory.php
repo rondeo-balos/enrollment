@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Department;
+use App\Models\Instructor;
 
 class DepartmentFactory extends Factory
 {
@@ -23,7 +24,7 @@ class DepartmentFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'code' => $this->faker->word(),
-            'head_id' => $this->faker->randomNumber(),
+            'instructor_id' => Instructor::factory(),
         ];
     }
 }
