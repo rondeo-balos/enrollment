@@ -1,66 +1,185 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Enrollment System: Models and Fillables
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Key Models in an Enrollment System
 
-## About Laravel
+### 1. **Student**
+| **Attribute**          | **Description**                  |
+|-------------------------|----------------------------------|
+| ID                     | Primary Key                     |
+| Name                   | First name, last name, middle name |
+| Date of Birth          | Student's date of birth         |
+| Gender                 | Male/Female/Other               |
+| Address                | Full address                    |
+| Contact Information    | Phone, email                    |
+| Enrollment Status      | Active, inactive, graduated     |
+| Guardian/Parent Details| Guardian information for minors |
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Relationships**:
+- Many-to-Many with Courses (through an **Enrollment** model)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 2. **Course**
+| **Attribute**          | **Description**                  |
+|-------------------------|----------------------------------|
+| ID                     | Primary Key                     |
+| Course Name            | Name of the course              |
+| Course Code            | Unique course identifier        |
+| Description            | Brief description of the course |
+| Units/Credit Hours     | Number of units/credits         |
+| Department             | Related academic department     |
+| Instructor/Professor ID| Foreign key to Instructor model |
 
-## Learning Laravel
+**Relationships**:
+- Many-to-Many with Students (through an **Enrollment** model)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 3. **Instructor/Staff**
+| **Attribute**          | **Description**                  |
+|-------------------------|----------------------------------|
+| ID                     | Primary Key                     |
+| Name                   | Instructor/staff name           |
+| Contact Information    | Phone, email                    |
+| Department             | Assigned department             |
+| Role                   | Role within the system (e.g., instructor, admin) |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Relationships**:
+- One-to-Many with Courses (Instructor teaches multiple courses)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 4. **Enrollment**
+| **Attribute**          | **Description**                  |
+|-------------------------|----------------------------------|
+| ID                     | Primary Key                     |
+| Student ID             | Foreign key to Student model    |
+| Course ID              | Foreign key to Course model     |
+| Enrollment Date        | Date of enrollment              |
+| Semester/Term          | Term in which enrolled          |
+| Grade                  | Grade received (if applicable)  |
 
-### Premium Partners
+**Relationships**:
+- Many-to-One with Students
+- Many-to-One with Courses
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+### 5. **Class Schedule**
+| **Attribute**          | **Description**                  |
+|-------------------------|----------------------------------|
+| ID                     | Primary Key                     |
+| Course ID              | Foreign key to Course model     |
+| Day/Time               | Scheduled day and time          |
+| Room                   | Classroom location              |
+| Instructor ID          | Foreign key to Instructor model |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Relationships**:
+- One-to-One or One-to-Many with Courses
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6. **Payment/Finance**
+| **Attribute**          | **Description**                  |
+|-------------------------|----------------------------------|
+| ID                     | Primary Key                     |
+| Student ID             | Foreign key to Student model    |
+| Amount                 | Payment amount                  |
+| Payment Date           | Date of payment                 |
+| Payment Method         | Cash, credit card, scholarship  |
+| Outstanding Balance    | Amount due                      |
 
-## Security Vulnerabilities
+**Relationships**:
+- Many-to-One with Students
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### 7. **Department/Program**
+| **Attribute**          | **Description**                  |
+|-------------------------|----------------------------------|
+| ID                     | Primary Key                     |
+| Name                   | Name of the department          |
+| Code                   | Department code                 |
+| Head of Department     | Foreign key to Instructor model |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Common Fillable Forms
+
+### 1. **Student Registration Form**
+| **Field**               |
+|--------------------------|
+| Name                    |
+| Date of Birth           |
+| Gender                  |
+| Address                 |
+| Contact Information     |
+| Guardian Information    |
+| Program/Department      |
+
+---
+
+### 2. **Course Enrollment Form**
+| **Field**               |
+|--------------------------|
+| Student Name/ID         |
+| Course Selection        |
+| Semester/Term           |
+| Enrollment Date         |
+
+---
+
+### 3. **Instructor Assignment Form**
+| **Field**               |
+|--------------------------|
+| Instructor Name/ID      |
+| Course Name/ID          |
+| Schedule (Day/Time)     |
+
+---
+
+### 4. **Payment Form**
+| **Field**               |
+|--------------------------|
+| Student Name/ID         |
+| Payment Amount          |
+| Payment Date            |
+| Method (dropdown)       |
+
+---
+
+### 5. **Schedule/Timetable Form**
+| **Field**               |
+|--------------------------|
+| Course Name/ID          |
+| Day/Time                |
+| Room                    |
+| Instructor Name/ID      |
+
+---
+
+### 6. **Grade Submission Form**
+| **Field**               |
+|--------------------------|
+| Student Name/ID         |
+| Course Name/ID          |
+| Grade                   |
+
+---
+
+### 7. **Department/Program Management Form**
+| **Field**               |
+|--------------------------|
+| Department Name         |
+| Head of Department      |
+| Courses Offered         |
+
+---
+
+## Workflow Example
+1. **Student Registration**: The student fills in the registration form, creating a record in the **Student** model.
+2. **Course Enrollment**: The student selects courses to enroll in, populating the **Enrollment** model.
+3. **Payment**: Payments are processed, updating the **Payment** model.
+4. **Grade Management**: After the term, grades are added to the **Enrollment** model.
+
+Each form directly interacts with the models, ensuring data integrity and streamlined operations.
