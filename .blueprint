@@ -1,2 +1,31 @@
+created:
+    - database/factories/StudentFactory.php
+    - database/factories/CourseFactory.php
+    - database/factories/InstructorFactory.php
+    - database/factories/EnrollmentFactory.php
+    - database/factories/ScheduleFactory.php
+    - database/factories/PaymentFactory.php
+    - database/factories/DepartmentFactory.php
+    - database/migrations/2024_12_03_090436_create_students_table.php
+    - database/migrations/2024_12_03_090437_create_courses_table.php
+    - database/migrations/2024_12_03_090438_create_instructors_table.php
+    - database/migrations/2024_12_03_090439_create_enrollments_table.php
+    - database/migrations/2024_12_03_090440_create_schedules_table.php
+    - database/migrations/2024_12_03_090441_create_payments_table.php
+    - database/migrations/2024_12_03_090442_create_departments_table.php
+    - app/Models/Student.php
+    - app/Models/Course.php
+    - app/Models/Instructor.php
+    - app/Models/Enrollment.php
+    - app/Models/Schedule.php
+    - app/Models/Payment.php
+    - app/Models/Department.php
 models:
     User: { name: string, email: string, email_verified_at: 'datetime nullable', password: string, remember_token: 'string nullable' }
+    Student: { user_id: unsignedInteger, first_name: string, middle_name: string, last_name: string, birth_date: date, gender: string, address: string, contact: string, email: string, status: string, guardian: string, relationships: { belongsTo: User } }
+    Course: { name: string, code: string, description: string, unit: integer, department_id: unsignedInteger, instructor_id: unsignedInteger, relationships: { belongsTo: 'Department, Instructor' } }
+    Instructor: { user_id: unsignedInteger, first_name: string, middle_name: string, last_name: string, contact: string, email: string, department_id: unsignedInteger, role: string, relationships: { belongsTo: 'User, Department', hasMany: Course } }
+    Enrollment: { student_id: unsignedInteger, course_id: unsignedInteger, enrollment_date: datetime, semester: string, grade: float, relationships: { belongsTo: 'Student, Course' } }
+    Schedule: { course_id: unsignedInteger, day: string, time: time, room: string, instructor_id: unsignedInteger, relationships: { belongsTo: 'Course, Instructor' } }
+    Payment: { student_id: unsignedInteger, amount: float, payment_date: datetime, payment_method: string, outstanding_bal: float, relationships: { belongsTo: Student } }
+    Department: { name: string, code: string, head_id: unsignedInteger, relationships: { hasMany: Course } }

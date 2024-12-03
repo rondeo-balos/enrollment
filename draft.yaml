@@ -1,5 +1,72 @@
 models:
-  # ...
+  Student:
+    user_id: unsignedInteger # Foreign key to User table
+    first_name: string
+    middle_name: string
+    last_name: string
+    birth_date: date
+    gender: string # Consider using an enum
+    address: string
+    contact: string
+    email: string # Should be unique
+    status: string # Enum: active, inactive, graduated
+    guardian: string
+    relationships:
+      belongsTo: User
 
-controllers:
-  # ...
+  Course:
+    name: string
+    code: string # Should be unique
+    description: string
+    unit: integer
+    department_id: unsignedInteger # Foreign key to Department
+    instructor_id: unsignedInteger # Foreign key to Instructor
+    relationships:
+      belongsTo: Department, Instructor
+
+  Instructor:
+    user_id: unsignedInteger # Foreign key to User table
+    first_name: string
+    middle_name: string
+    last_name: string
+    contact: string
+    email: string # Should be unique
+    department_id: unsignedInteger # Foreign key to Department
+    role: string # Example: admin, lecturer
+    relationships:
+      belongsTo: User, Department
+      hasMany: Course
+
+  Enrollment:
+    student_id: unsignedInteger # Foreign key to Student
+    course_id: unsignedInteger # Foreign key to Course
+    enrollment_date: datetime
+    semester: string
+    grade: float # Nullable
+    relationships:
+      belongsTo: Student, Course
+
+  Schedule:
+    course_id: unsignedInteger # Foreign key to Course
+    day: string # Example: Monday, Tuesday
+    time: time # Start time
+    room: string
+    instructor_id: unsignedInteger # Foreign key to Instructor
+    relationships:
+      belongsTo: Course, Instructor
+
+  Payment:
+    student_id: unsignedInteger # Foreign key to Student
+    amount: float
+    payment_date: datetime
+    payment_method: string # Example: cash, credit card
+    outstanding_bal: float
+    relationships:
+      belongsTo: Student
+
+  Department:
+    name: string
+    code: string # Should be unique
+    head_id: unsignedInteger # Foreign key to Instructor
+    relationships:
+      hasMany: Course
